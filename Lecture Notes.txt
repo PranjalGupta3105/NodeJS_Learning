@@ -1,0 +1,73 @@
+Section - 1 (Node and All about)
+
+1. NodeJS uses V8 engine to compile the JS code and return the result, the same way the Chrome does.
+   V8 Engine is written in C++.
+
+2. Both the Chrome and NodeJs have their own JS file for which there are pre-defined functions written
+   in C++. When some interaction like that with the File System is made it is those functions that are 
+   send to the V8 along with the C++ Bindings to make V8 Know that the corresponding functions have to 
+   be executed in the C++ which makes interaction with OS.
+
+3. Non-Blocking I/O in NodeJS  = Querying the Databases, Reading a File from the File System, Making a 
+   Call to thid party application are all I/O processes. Non Blocking Implies while the NodeJS based app 
+   is waiting for the response from an I/O process, it can still work over some other task/process/request.
+   Non Blocking is the Feature provided by the Browser.
+
+Section - 2 (Notes-App)
+
+1. Importing the Node Modules - 
+    1. Default Node Modules -> const module_name = require('<module_name>');
+    2. Self Created Node Modules -> 
+        2.1 Any self created module needs to be -> const module_name = require('<file_name>')
+        2.2 Need to Export the Same File so that it can be required as module -> 
+            module.exports = { <variable_name>/<function_name> }
+        2.3 Any Variable/Function created can then be called as module_name.<variable_name>/<function_name>
+    3. NPM Modules -> const npm_module_name = require('<npm_module_name>');
+
+2. Package-lock.json File is meant to keep the check of the package install along with the URL from and some 
+   Hash Value telling from where it was installed.
+
+3. NPM Modules Discovered =
+    3.1. Validator = Used for Validating the Emails, URL's and much more.
+    3.2. Chalk = Used to Logging the Message in an Colorful Way through the Styling 
+         (Basically Beautifying the Messages Logging)
+    3.3. Nodemon = Used for running a dynamic instance of Node that automatically initiates node when new changes 
+         are made
+
+Section - 3 (Interacting with the File System and Command Line Arguments)
+
+1. Command Line Arguments are passed along the cmd while providing the start file to the "node" command like 
+   "node app.js <argument>".
+   We access these arguments using the "process.argv" i.e. argument vector.
+
+2. process.argv displays the array of all of the passed arguments with the first and second argument being the Path to
+   Node Executable and Path to the File being called using node command respectively. Rest all are arguments Passed.
+   Arguments can be obtained by passing the item's index value over argv array.
+
+3. Command Line Argument Parsing can be achieved using a npm package "yargs".
+   When e provide the Command Line values to the Yargs it takes the functions from the commands as=>  
+   _:['function_name'] and the parameter values as title:'sample title' and both the things are enclosed within
+   {} => { _: [ 'function_name' ], title: 'sample title', '$0': 'app.js' }
+
+4. Defining a Yargs command :
+   yargs.command({
+       command:'command_name',
+       describe:'description_for_the_command',
+       builder: {
+           argument_name : {
+               describe: argument_description,
+               demandOption: true,   // Sets the argument value specification as Required
+               type: 'string'       // Adds the Strictness in 'type' of command line value to be specified
+           }
+       }
+       handler: function(argv){
+           console.log('code for the function that will be executed once the command is used')
+           // To grab the Argument Value from the command line for the specified argument in the Builder,
+           // use argv as the parameter in the function and grab the argument value using argv.argument_name  
+           console.log(argv.argument_name)
+       }
+   })
+
+  
+
+
